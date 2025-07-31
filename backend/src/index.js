@@ -21,10 +21,16 @@ app.use(express.json({ limit: "10mb" }));
 app.use(express.urlencoded({ extended: true, limit: "10mb" }));
 app.use(
   cors({
-    origin: "http://localhost:5173",
+    // origin: "http://localhost:5173",
+       origin: [
+      "http://localhost:5174",
+      "http://localhost:5173",
+      "https://gupshup-chat-app.vercel.app",
+    ],
     credentials: true,
   })
 );
+
 
 // ✅ Routes
 app.use("/api/auth", authRoutes);
