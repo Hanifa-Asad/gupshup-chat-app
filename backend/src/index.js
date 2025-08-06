@@ -40,6 +40,12 @@ app.use("/api/messages", messageRoutes);
 app.use("/api/users", userRoutes); // ✅ should come after middlewares
 
 // ✅ Production handling
+
+app.get("/", (req, res) => {
+  res.send("API is working ✅");
+});
+
+
 if (process.env.NODE_ENV === "production") {
   app.use(express.static(path.join(__dirname, "../frontend/dist")));
   app.get("*", (req, res) => {
