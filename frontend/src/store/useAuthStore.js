@@ -5,10 +5,11 @@ import { io } from "socket.io-client";
 
 // const BASE_URL = import.meta.env.MODE === "development" ? "https://gupshup-chat-app-gz05.onrender.com" : "/";
 
-const BASE_URL = import.meta.env.MODE === "development"
-  ? "http://localhost:5000"
-  : "https://gupshup-chat-app-gz05.onrender.com";
+// const BASE_URL = import.meta.env.MODE === "development"
+  // ? "http://localhost:5000"
+  // : "https://gupshup-chat-app-gz05.onrender.com";
 
+const BASE_URL = "https://gupshup-chat-app-gz05.onrender.com";
 
 export const useAuthStore = create((set, get) => ({
   authUser: null,
