@@ -20,19 +20,41 @@ export const useAuthStore = create((set, get) => ({
   onlineUsers: [],
   socket: null,
 
+  // checkAuth: async () => {
+  //   try {
+  //     const res = await axiosInstance.get("/auth/check");
+  //     set({ authUser: res.data });
+  //     get().connectSocket();
+  //   } catch (error) {
+  //     console.error("Error in checkAuth:", error);
+  //     set({ authUser: null });
+  //     toast.error(error?.response?.data?.message || "Failed to check auth");
+  //   } finally {
+  //     set({ isCheckingAuth: false });
+  //   }
+  // },
+
+
   checkAuth: async () => {
-    try {
-      const res = await axiosInstance.get("/auth/check");
-      set({ authUser: res.data });
-      get().connectSocket();
-    } catch (error) {
-      console.error("Error in checkAuth:", error);
-      set({ authUser: null });
-      toast.error(error?.response?.data?.message || "Failed to check auth");
-    } finally {
-      set({ isCheckingAuth: false });
+  try {
+    const res = await axiosInstance.get("/auth/check");
+    set({ authUser: res.data });
+    get().connectSocket();
+  } catch (error) {
+    // Only show toast if backend responded with an actual error message
+    if (error?.response?.status >= 500) {
+      toast.error("Server error while checking auth");
     }
-  },
+
+    // Silently reset auth if token/cookie missing or expired
+    set({ authUser: null });
+    get().disconnectSocket();
+  } finally {
+    set({ isCheckingAuth: false });
+  }
+},
+   
+
 
   signup: async (data) => {
     set({ isSigningUp: true });
@@ -62,16 +84,30 @@ export const useAuthStore = create((set, get) => ({
     }
   },
 
+  // logout: async () => {
+  //   try {
+  //     await axiosInstance.post("/auth/logout");
+  //     set({ authUser: null, onlineUsers: [] }); // Reset online users on logout
+  //     toast.success("Logged out successfully");
+  //     get().disconnectSocket();
+  //   } catch (error) {
+  //     toast.error(error?.response?.data?.message || "Logout failed. Please try again.");
+  //   }
+  // },
+
   logout: async () => {
-    try {
-      await axiosInstance.post("/auth/logout");
-      set({ authUser: null, onlineUsers: [] }); // Reset online users on logout
-      toast.success("Logged out successfully");
-      get().disconnectSocket();
-    } catch (error) {
-      toast.error(error?.response?.data?.message || "Logout failed. Please try again.");
-    }
-  },
+  try {
+    await axiosInstance.post("/auth/logout");
+  } catch (error) {
+    // We still want to clear local state even if server logout fails
+    console.error("Error in logout:", error);
+  } finally {
+    set({ authUser: null, onlineUsers: [] });
+    toast.success("Logged out successfully");
+    get().disconnectSocket();
+  }
+},
+
 
   updateProfile: async (data) => {
     set({ isUpdatingProfile: true });
