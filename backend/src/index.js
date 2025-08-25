@@ -27,7 +27,7 @@ app.use(
        origin: [
       "http://localhost:5174",
       "http://localhost:5173",
-      "gupshup-chat-igqpq67g7-hanifa-asads-projects.vercel.app",
+      "https://gupshup-chat-app-git-main-hanifa-asads-projects.vercel.app",
     ],
     credentials: true,
   })
