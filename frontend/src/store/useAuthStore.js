@@ -56,23 +56,41 @@ export const useAuthStore = create((set, get) => ({
    
 
 
-  signup: async (data) => {
-    set({ isSigningUp: true });
-    try {
-      // const res = await axiosInstance.post("/auth/signup", data);
-      console.log("Signup API call →", axiosInstance.defaults.baseURL + "/auth/signup");
+//   signup: async (data) => {
+//     set({ isSigningUp: true });
+//     try {
+//       // const res = await axiosInstance.post("/auth/signup", data);
+//       console.log("Signup API call →", axiosInstance.defaults.baseURL + "/auth/signup");
 
-await axiosInstance.post("/auth/signup", formData);
+// await axiosInstance.post("/auth/signup", formData);
 
-      set({ authUser: res.data });
-      toast.success("Account created successfully");
-      get().connectSocket();
-    } catch (error) {
-      toast.error(error?.response?.data?.message || "Signup failed. Please try again.");
-    } finally {
-      set({ isSigningUp: false });
-    }
-  },
+//       set({ authUser: res.data });
+//       toast.success("Account created successfully");
+//       get().connectSocket();
+//     } catch (error) {
+//       toast.error(error?.response?.data?.message || "Signup failed. Please try again.");
+//     } finally {
+//       set({ isSigningUp: false });
+//     }
+//   },
+
+signup: async (data) => {
+  set({ isSigningUp: true });
+  try {
+    console.log("Signup API call →", axiosInstance.defaults.baseURL + "/auth/signup");
+
+    const res = await axiosInstance.post("/auth/signup", data, { withCredentials: true });
+
+    set({ authUser: res.data });
+    toast.success("Account created successfully");
+    get().connectSocket();
+  } catch (error) {
+    toast.error(error?.response?.data?.message || "Signup failed. Please try again.");
+  } finally {
+    set({ isSigningUp: false });
+  }
+},
+
 
   login: async (data) => {
     set({ isLoggingIn: true });
