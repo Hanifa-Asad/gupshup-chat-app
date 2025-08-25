@@ -30,6 +30,8 @@ app.use(
       "https://gupshup-chat-app-git-main-hanifa-asads-projects.vercel.app",
     ],
     credentials: true,
+        methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"], // ✅ allow all needed methods
+    allowedHeaders: ["Content-Type", "Authorization"],    // 
   })
 );
 
