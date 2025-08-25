@@ -21,19 +21,34 @@ const __dirname = path.resolve();
 app.use(cookieParser());
 app.use(express.json({ limit: "10mb" }));
 app.use(express.urlencoded({ extended: true, limit: "10mb" }));
+// app.use(
+//   cors({
+//     // origin: "http://localhost:5173",
+//        origin: [
+//       "http://localhost:5174",
+//       "http://localhost:5173",
+//       "https://gupshup-chat-app-git-main-hanifa-asads-projects.vercel.app",
+//     ],
+//     credentials: true,
+//         methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"], // ✅ allow all needed methods
+//     allowedHeaders: ["Content-Type", "Authorization"],    // 
+//   })
+// );
+
 app.use(
   cors({
-    // origin: "http://localhost:5173",
-       origin: [
-      "http://localhost:5174",
+    origin: [
       "http://localhost:5173",
-      "https://gupshup-chat-app-git-main-hanifa-asads-projects.vercel.app",
+      "http://localhost:5174",
+      "https://gupshup-chat-app.vercel.app", // ✅ main production frontend
+      "https://gupshup-chat-app-git-main-hanifa-asads-projects.vercel.app" // ✅ preview frontend
     ],
     credentials: true,
-        methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"], // ✅ allow all needed methods
-    allowedHeaders: ["Content-Type", "Authorization"],    // 
+    methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"], 
+    allowedHeaders: ["Content-Type", "Authorization"],
   })
 );
+
 
 
 // ✅ Routes
